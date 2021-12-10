@@ -10,15 +10,18 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
-app.layout = html.Div([
-    html.H2('Hello World'),
-    dcc.Dropdown(
-        id='dropdown',
-        options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
-        value='LA'
-    ),
-    html.Div(id='display-value')
-])
+app.layout = html.Div(
+    children=[
+        html.Div(
+            children=[
+                html.P(children="📈", className="header_emoji"),
+                html.H1(children="temp Analytics", className="header_title"),
+                html.P(children="Temp", className="header_description")
+            ],
+            className='header'
+        ),
+    ]
+)
 
 @app.callback(dash.dependencies.Output('display-value', 'children'),
                 [dash.dependencies.Input('dropdown', 'value')])
