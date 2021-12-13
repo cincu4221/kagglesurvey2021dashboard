@@ -28,5 +28,8 @@ app.layout = html.Div(
 def display_value(value):
     return 'You have selected "{}"'.format(value)
 
+server.secret_key = os.environ.get(‘SECRET_KEY’, ‘my-secret-key’)
+
 if __name__ == '__main__':
     app.run_server(debug=True)
+
