@@ -103,7 +103,7 @@ app.layout = html.Div(
                         dcc.Dropdown(
                             id="age-filter",
                             options=[
-                                {"label": age, "value": Q1}
+                                {"label": age, "value": age}
                                 for age in np.sort(data.Q1[1:].unique())
                             ],
                             value="18-21",
@@ -118,7 +118,7 @@ app.layout = html.Div(
                         dcc.Dropdown(
                             id="Gender-filter",
                             options=[
-                                {"label": gender, "value": Q2}
+                                {"label": gender, "value": gender}
                                 for gender in data.Q2[1:].unique()
                             ],
                             value="Man",
@@ -134,7 +134,7 @@ app.layout = html.Div(
                         dcc.Dropdown(
                             id="Country-filter",
                             options=[
-                                {"label": country, "value": Q3}
+                                {"label": country, "value": country}
                                 for country in data.Q3[1:].unique()
                             ],
                             value="India",
