@@ -27,18 +27,22 @@ app.title = "Temp Analytics: Understand Your Data!"
 server = app.server
 
 @app.callback(
-    [Output("Age-chart", "figure"), Output("Gender-chart", "figure"), Output("Country-chart", "figure")],
+    [Output("Age-chart", "figure"), Output("gender-chart", "figure"), Output("Country-chart", "figure")],
     [
         Input("age-filter", "value"),
-        Input("gender-filter", "value"),
-        Input("country-filter", "value"),
+        Input("type-filter", "value"),
+        Input("type-filter", "value"),
+        Input("date-range", "start_date"),
+        Input("date-range", "end_date"),
     ],
 )
-def update_charts(age, gender, country ):
+def update_charts(age, gender, country, start_date, end_date):
     mask = (
         (data.Q1 == age)
         & (data.Q2 == gender)
         & (data.Q3 == country)
+        & (data.Date >= start_date)
+        & (data.Date <= end_date)
     )
     filtered_data = data.loc[mask, :]
     price_chart_figure = {
@@ -116,7 +120,7 @@ app.layout = html.Div(
                     children=[
                         html.Div(children="Gender", className="menu-title"),
                         dcc.Dropdown(
-                            id="gender-filter",
+                            id="Gender-filter",
                             options=[
                                 {"label": gender, "value": gender}
                                 for gender in np.sort(data.Q2[1:].unique())
@@ -132,7 +136,7 @@ app.layout = html.Div(
                     children=[
                         html.Div(children="Country", className="menu-title"),
                         dcc.Dropdown(
-                            id="country-filter",
+                            id="Country-filter",
                             options=[
                                 {"label": country, "value": country}
                                 for country in np.sort(data.Q3[1:].unique())
