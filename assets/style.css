@@ -1,3 +1,9 @@
+.inline_div {
+    display:inline-block;
+    float:left;
+    align:center;
+}
+
 .header_emoji {
     font-size: 48px;
     margin: 0 auto;
