@@ -2,9 +2,19 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
+import numpy as np
+from dash.dependencies import Output, Input
 
+# step 1. Data Import
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
+Age_xaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().index
+Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values
+# data["Date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
+# data.sort_values("Date", inplace=True)
 
+#print(data[['region', 'type', 'Date']].head())
+
+# step 2. Dash Class
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
@@ -12,35 +22,69 @@ external_stylesheets = [
         "rel": "stylesheet",
     },
 ]
-
-app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
-app.title = "2021 kaggle survey"
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = "Temp Analytics: Understand Your Data!"
 server = app.server
-
-def dropdown():
-    sel_dropdown = dcc.Dropdown(
-        id=DD_id,
-        options={
-            {"label": }
-        }
+"""
+@app.callback(
+    [Output("Age-chart", "figure"), Output("Gender-chart", "figure"), Output("Country-chart", "figure")],
+    [
+        Input("age-filter", "value"),
+        Input("gender-filter", "value"),
+        Input("country-filter", "value"),
+    ],
+)
+def update_charts(age, gender, country ):
+    mask = (
+        (data.Q1 == age)
+        & (data.Q2 == gender)
+        & (data.Q3 == country)
     )
-
-def graph(graph_type):
-    chart = dcc.Graph(
-        figure={
-            "data": [
-                {
-                    "x":
-                    "y":
-                    "type": graph_type,
-                },
-            ],
+    filtered_data = data.loc[mask, :]
+    price_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["Date"],
+                "y": filtered_data["AveragePrice"],
+                "type": "lines",
+                "hovertemplate": "%{y:.2f}명<extra></extra>",
+            },
+        ],
+        "layout": {
+            "title": {
+                "text": "Average Price of Avocados",
+                "x": 0.05,
+                "xanchor": "left",
+            },
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"tickprefix": "$", "fixedrange": True},
+            "colorway": ["#17B897"],
         },
-    )
-    return chart
+    }
 
+    volume_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["Date"],
+                "y": filtered_data["Total Volume"],
+                "type": "lines",
+            },
+        ],
+        "layout": {
+            "title": {
+                "text": "Avocados Sold",
+                "x": 0.05,
+                "xanchor": "left"
+            },
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"fixedrange": True},
+            "colorway": ["#E12D39"],
+        },
+    }
+    return price_chart_figure, volume_chart_figure
 
-# ---- html ----
+"""
+# step 3. HTML
 app.layout = html.Div(
     children=[
         html.Div(
@@ -51,16 +95,127 @@ app.layout = html.Div(
             ],
             className='header'
         ),
-        html.Div(
-            children=[
-                graph()
-            ],
-            className="card"
-        )
+        dcc.Tabs([
+            dcc.Tab(
+                label='Introduce', children=[
+                    dcc.Graph(
+                        id="Age-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    "x": data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().index,
+                                    "y": data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values,
+                                    "type": "bar",
+                                    "hovertemplate": "(Count : %{y:.0f})"
+                                                     "<extra></extra>"
+                                },
+                            ],
+                            "layout": {
+                                "title": {
+                                    "text": "Age",
+                                    "x": 2,
+                                    "xanchor": "center",
+                                },
+                                "xaxis": {"fixedrange": True},
+                                "yaxis": {
+                                    "tickprefix": "",  # y축 단위
+                                    "fixedrange": True,
+                                },
+                                "colorway": ["#17B897"],
+                            },
+                        }
+                    )
+                ]
+            ),
+            dcc.Tab(
+                label='HTML layout', children=[
+                    html.H1(children="HTML5 레이아웃"),
+                    html.Header(
+                        children=[
+                            html.H2(children="HEADER 영역")
+                        ],
+                        className='header_test'
+                    ),
+                    html.Nav(
+                        children=[
+                            html.H2(children="NAV 영역")
+                        ],
+                        className='nav'
+                    ),
+                    html.Section(
+                        children=[
+                            html.P(children="SECTION 영역")
+                        ],
+                        className='section'
+                    ),
+                    html.Footer(
+                        children=[
+                            html.H2(children="FOOTER 영역")
+                        ],
+                        className='footer'
+                    )
+                ]
+            ),
+            dcc.Tab(
+                label='Dashboard', children=[
+                    html.H1(children="HTML5 레이아웃 변경 작업"),
+                    html.Div(
+                        children=[
+                            dcc.Graph(
+                                id="Age-chart-html",
+                                config={"displayModeBar": False},
+                                figure={
+                                    "data": [
+                                        {
+                                            "x": data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().index,
+                                            "y": data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values,
+                                            "type": "bar",
+                                            "hovertemplate": "(Count : %{y:.0f})"
+                                                             "<extra></extra>"
+                                        },
+                                    ],
+                                    "layout": {
+                                        "title": {
+                                            "text": "Age",
+                                            "x": 2,
+                                            "xanchor": "center",
+                                        },
+                                        "xaxis": {"fixedrange": True},
+                                        "yaxis": {
+                                            "tickprefix": "",  # y축 단위
+                                            "fixedrange": True,
+                                        },
+                                        "colorway": ["#17B897"],
+                                    },
+                                }
+                            )
+                        ],
+                        className='section_age'
+                    ),
+                    html.Section(
+                        children=[
+                            html.P(children="SECTION 영역")
+                        ],
+                        className='section'
+                    ),
+                    html.Section(
+                        children=[
+                            html.P(children="SECTION 영역")
+                        ],
+                        className='section'
+                    ),
+                    html.Footer(
+                        children=[
+                            html.H2(children="FOOTER 영역")
+                        ],
+                        className='footer'
+                    )
+                ]
+            )
+        ])
     ]
 )
-
-
 
 
 if __name__ == "__main__":
