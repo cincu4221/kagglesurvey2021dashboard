@@ -12,7 +12,7 @@ Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values
 # data["Date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
 # data.sort_values("Date", inplace=True)
 
-#print(data[['region', 'type', 'Date']].head())
+# print(data[['region', 'type', 'Date']].head())
 
 # step 2. Dash Class
 external_stylesheets = [
@@ -25,6 +25,7 @@ external_stylesheets = [
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Temp Analytics: Understand Your Data!"
 server = app.server
+
 """
 @app.callback(
     [Output("Age-chart", "figure"), Output("Gender-chart", "figure"), Output("Country-chart", "figure")],
@@ -86,8 +87,15 @@ def update_charts(age, gender, country ):
 """
 # step 3. HTML
 app.layout = html.Div(
-    # Header Message
     children=[
+        html.Div(
+            children=[
+                html.Button(className='Red-btn'),
+                html.Button(className='Yellow-btn'),
+                html.Button(className='Green-btn'),
+            ],
+            className='Top-bar'
+        ),
         html.Div(
             children=[
                 html.P(children="📈", className="header_emoji"),
@@ -96,19 +104,82 @@ app.layout = html.Div(
             ],
             className='header'
         ),
-        html.Div(
-            children=[
-                html.Div(
-                    children=[
-                        html.Div( # --------------------- Age-chart ---------------------
-                            children=dcc.Graph(
-                                id="Age-chart",
+        dcc.Tabs([
+            dcc.Tab(
+                label='Introduce', children=[
+                    dcc.Graph(
+                        id="Age-chart",
+                        config={"displayModeBar": False},
+                        figure={
+                            "data": [
+                                {
+                                    "x": data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().index,
+                                    "y": data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values,
+                                    "type": "bar",
+                                    "hovertemplate": "(Count : %{y:.0f})"
+                                                     "<extra></extra>"
+                                },
+                            ],
+                            "layout": {
+                                "title": {
+                                    "text": "Age",
+                                    "x": 2,
+                                    "xanchor": "center",
+                                },
+                                "xaxis": {"fixedrange": True},
+                                "yaxis": {
+                                    "tickprefix": "",  # y축 단위
+                                    "fixedrange": True,
+                                },
+                                "colorway": ["#17B897"],
+                            },
+                        }
+                    ),
+                    html.P(children="test text")
+                ]
+            ),
+            dcc.Tab(
+                label='HTML layout', children=[
+                    html.H1(children="HTML5 레이아웃"),
+                    html.Header(
+                        children=[
+                            html.H2(children="HEADER 영역")
+                        ],
+                        className='header_test'
+                    ),
+                    html.Nav(
+                        children=[
+                            html.H2(children="NAV 영역")
+                        ],
+                        className='nav'
+                    ),
+                    html.Section(
+                        children=[
+                            html.P(children="SECTION 영역")
+                        ],
+                        className='section'
+                    ),
+                    html.Footer(
+                        children=[
+                            html.H2(children="FOOTER 영역")
+                        ],
+                        className='footer'
+                    )
+                ]
+            ),
+            dcc.Tab(
+                label='Dashboard', children=[
+                    html.H1(children="HTML5 레이아웃 변경 작업"),
+                    html.Div(
+                        children=[
+                            dcc.Graph(
+                                id="Age-chart-html",
                                 config={"displayModeBar": False},
                                 figure={
                                     "data": [
                                         {
-                                            "x": Age_xaxis,
-                                            "y": Age_yaxis,
+                                            "x": data['Q1'][1:].value_counts().sort_index().index,
+                                            "y": data['Q1'][1:].value_counts().sort_index().values,
                                             "type": "bar",
                                             "hovertemplate": "(Count : %{y:.0f})"
                                                              "<extra></extra>"
@@ -127,78 +198,90 @@ app.layout = html.Div(
                                         },
                                         "colorway": ["#17B897"],
                                     },
+                                }
+                            )
+                        ],
+                        className='section_age'
+                    ),
+                    html.Div(
+                        children=[
+                            dcc.Graph(
+                                id="Gender-chart-html",
+                                config={"displayModeBar": False},
+                                figure={
+                                    "data": [
+                                        {
+                                            "x": data['Q2'][1:].value_counts().sort_index().index,
+                                            "y": data['Q2'][1:].value_counts().sort_index().values,
+                                            "type": "",
+                                            "hovertemplate": "(Count :%{y:.0f})"
+                                                             "<extra></extra>"
+                                        },
+                                    ],
+                                    "layout": {
+                                        "title": {
+                                            "text": "Gender",
+                                            "x": 2,
+                                            "xanchor": "center",
+                                        },
+                                        "xaxis": {"fixedrange": True},
+                                        "yaxis": {
+                                            "tickprefix": "",
+                                            "fixedrange": True,
+                                        },
+                                        "colorway": ["#17B897"],
+                                    },
                                 },
                             ),
-                        ),
-                    ],
-                    className="card",
-                ),
-                html.Div( # --------------------- Gender-chart ---------------------
-                    children=dcc.Graph(
-                        id="Gender-chart",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    "x": Age_xaxis,
-                                    "y": Age_yaxis,
-                                    "type": "bar",
-                                    "hovertemplate": "$%{y:.2f}"
-                                                     "<extra></extra>"
-                                },
-                            ],
-                            "layout": {
-                                "title": {
-                                    "text": "Gender",
-                                    "x": 2,
-                                    "xanchor": "center",
-                                },
-                                "xaxis": {"fixedrange": True},
-                                "yaxis": {
-                                    "tickprefix": "$",
-                                    "fixedrange": True,
-                                },
-                                "colorway": ["#17B897"],
-                            },
-                        },
+                        ],
+                        className='section_age'
                     ),
-                    className="card",
-                ),
-                html.Div(
-                    children=dcc.Graph( # --------------------- Country-chart ---------------------
-                        id="Country-chart",
-                        config={"displayModeBar": False},
-                        figure={
-                            "data": [
-                                {
-                                    "x": Age_xaxis,
-                                    "y": Age_yaxis,
-                                    "type": "bar",
-                                    "hovertemplate": "$%{y:.2f}"
-                                                     "<extra></extra>"
+                    html.Div(
+                        children=[
+                            dcc.Graph(
+                                id="Country-chart",
+                                config={"displayModeBar": False},
+                                figure={
+                                    "data": [
+                                        {
+                                            "x": data['Q3'][1:].value_counts().sort_index().index,
+                                            "y": data['Q3'][1:].value_counts().sort_index().values,
+                                            "type": "",
+                                            "hovertemplate": "(Count :%{y:.0f})"
+                                                             "<extra></extra>"
+                                        },
+                                    ],
+                                    "layout": {
+                                        "title": {
+                                            "text": "Gender",
+                                            "x": 2,
+                                            "xanchor": "center",
+                                        },
+                                        "xaxis": {"fixedrange": True},
+                                        "yaxis": {
+                                            "tickprefix": "",
+                                            "fixedrange": True,
+                                        },
+                                        "colorway": ["#17B897"],
+                                        "paper_bgcolor": ["#111827"],
+                                    },
                                 },
-                            ],
-                            "layout": {
-                                "title": {
-                                    "text": "Country",
-                                    "x": 2,
-                                    "xanchor": "center",
-                                },
-                                "xaxis": {"fixedrange": True},
-                                "yaxis": {
-                                    "tickprefix": "$",
-                                    "fixedrange": True,
-                                },
-                                "colorway": ["#17B897"],
-                            },
-                        },
+                            )
+                        ],
+                        className='section'
                     ),
-                    className="card",
-                ),
-            ],
-            className="wrapper"
-        ),
-    ]
+                    html.Div(
+                        children=[
+                            html.P(children="SECTION 영역")
+                        ],
+                        className='section'
+                    ),
+                ],
+                className='BGC-navy'
+            )
+        ],className='Tabs-cover')
+    ],
+    className='Page-cover'
 )
 
 
