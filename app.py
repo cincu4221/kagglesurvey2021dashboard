@@ -37,10 +37,13 @@ colors = {
 }
 
 # Chart.1
-def age_chart_func(country):
+@app.callback(
+    Output('id_fig_age', 'figure'),
+    Input('country-filter', 'value'))
+def age_chart_func(value):
     fig_age = px.bar(data,
-                     x=data[data['Q3'] == country]['Q1'][1:].value_counts().sort_index().index,
-                     y=data[data['Q3'] == country]['Q1'][1:].value_counts().sort_index().values,)
+                     x=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().index,
+                     y=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().values,)
     fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
                           marker_color='lightgreen')
     fig_age.update_layout(paper_bgcolor=colors['content-background'],
@@ -157,7 +160,8 @@ app.layout = html.Div(
                                         children=[
                                             html.Div(children=[
                                                 html.P("Age Distribution",className='sub_title')
-                                            ]),
+                                            ]),'''
+                                            ''',
                                             dcc.Dropdown(
                                                 id="country-filter",
                                                 options=[
@@ -165,8 +169,16 @@ app.layout = html.Div(
                                                     for country in np.sort(data.Q3[1:].unique())
                                                 ],
                                                 value="Algeria",
+                                                style ={
+                                                    'background-color': colors['content-background'],
+                                                    'border': 'none',
+                                                    'border-bottom': '1px solid ghostwhite',
+                                                    'color': 'orange',
+                                                    'display': 'table',
+                                                    'margin': '10px auto 0 auto',
+                                                }
                                             ),
-                                            html.Div(dcc.Graph(figure=age_chart_func('Algeria'),
+                                            html.Div(dcc.Graph(id='id_fig_age',
                                                                style={'margin': 5}),className='under_radius')
                                         ],
                                         className='section_age'
@@ -186,8 +198,10 @@ app.layout = html.Div(
                                             html.Div(children=[
                                                 html.P("Country Distribution", className='sub_title')
                                             ]),
-                                            html.Div(dcc.Graph(figure=age_chart_func('Algeria'),
+                                            '''
+                                            html.Div(dcc.Graph(figure=age_chart_func('Japan'),
                                                                style={'margin': 5}), className='under_radius')
+                                                               '''
                                         ],
                                         className='section_age'
                                     ),
@@ -249,11 +263,7 @@ app.layout = html.Div(
     ],className='Page-cover'
 )
 
-@app.callback(
-    Output('', 'children'),
-    Input('country-filter', 'value'))
-def age_chart_func(value):
-    return 'You have selected "{}"'.format(value)
+
 
 # test
 @app.callback(

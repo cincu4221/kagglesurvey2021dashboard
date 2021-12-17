@@ -148,10 +148,9 @@
 .Div_center {
     display: inline;
     position: absolute;
-    left: 32%;
     top: 50%;
-    margin-left:-12.5px;
-    margin-top:-12.5px;
+    left: 50%;
+    margin: -12.5px 0 0 -235px;
 }
 /*
 .plotly_icon {
@@ -229,8 +228,26 @@
 }
 
 .dropdown {
-    dropdown-button: {background-color: #1B263D;}
+    background-color: colors[content-background];
+    border: none;
+    border-bottom: 3px solid ghostwhite;
+    color: orange;
+    display: table;
+    margin: 10px auto 0 auto;
+}
 
+
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+
+option {
+    background-color: #e3a700;
 }
 
 .section {

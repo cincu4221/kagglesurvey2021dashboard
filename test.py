@@ -1,5 +1,5 @@
-import pandas
-import numpy
+import pandas as pd
+import numpy as np
 
-print(pandas.__version__)
-print(numpy.__version__)
+print(pd.__version__)
+print(np.__version__)
