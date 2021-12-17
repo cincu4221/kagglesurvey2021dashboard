@@ -11,24 +11,20 @@
     border-bottom: 3px solid lightgrey;
 }
 
-.su_title {
-    color: lightgrey;
-}
-
 .inline_div {
     display:inline-block;
     float:left;
     align:center;
 }
-
+/*
 .header_emoji {
     font-size: 48px;
     margin: 0 auto;
     text-align: center;
-}
+}*/
 
 .header_title {
-    color: #FFFFFF;
+    color: ghostwhite;
     font-size: 36px;
     font-weight: bold;
     text-align: center;
@@ -36,19 +32,37 @@
 }
 
 .header_description {
-    color: #CFCFCF;
+    color: #D5D5DB;
+    font-size: 18px;
+    font-weight: bold;
     margin: 4px auto;
     text-align: center;
     max-width: 384px;
 }
 
-.header {
-    background-color: #222222;
+.header {/*
+    background-color: #222222;*/
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/header.png');
+    background-size: cover;
     height: 256px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    z-index: 1;
 }
+/*
+.header::after {
+    height: 256px;
+    content: "";
+    top: 0;
+    left: 0;
+    background-image: url('/assets/header.png');
+    background-size: 100%;
+    opacity:0.5!important;
+    filter:alpha(opacity=50);
+}
+*/
 
 .wrapper {
     margin-right: auto;
@@ -95,20 +109,57 @@
 }
 
 .Page-cover {
+    padding: 7.5px;
+    margin: -8px;
+    background-color: #1B263D;
+}
+
+.Dash-cover {
+    border: 3px solid #374151;
+    background-color: #374151;
+    border-radius: 10px 10px 10px 10px;
     margin: 0.5%;
-    background-color: #111827;
 }
 
 .Tabs-cover {
-    border: 1px
+    border: 1px;
     border-color: #D6D6D6;
 }
 
-.Top-bar {
-    background-color: #374151;
-    border-radius: 5px 5px 0 0;
-    padding: 10px 15px;
+.contents-padding {
+    padding: 1%;
 }
+
+.Top_bar {
+    background-color: #374151;
+    border: 1px solid #374151;
+    border-radius: 7.5px 7.5px 0 0;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.Top_bar_title {
+    color: lightgrey;
+    font-size: 16px;
+    text-align: center;
+    display: inline;
+}
+
+.Div_center {
+    display: inline;
+    position: absolute;
+    left: 32%;
+    top: 50%;
+    margin-left:-12.5px;
+    margin-top:-12.5px;
+}
+/*
+.plotly_icon {
+    width: 21px;
+    height: auto;
+    left: 20%;
+}
+*/
 
 .Red-btn {
     width: 15px;
@@ -152,11 +203,6 @@
     background-color: #0D9165;
 }
 
-.BGC-navy{
-    background-color: rgba(17,24,39,0);
-    border: 1px
-    border-color: #E1E2E4;
-}
 
 
 
@@ -182,6 +228,10 @@
      clear: both;
 }
 
+.dropdown {
+    dropdown-button: {background-color: #1B263D;}
+
+}
 
 .section {
     line-height:240px;
@@ -223,6 +273,12 @@
     flex-wrap: wrap;
     margin: 0.6666666% 0.6666666%;
 }
+
+.section_country {
+    width
+}
+
+
 
 
 
