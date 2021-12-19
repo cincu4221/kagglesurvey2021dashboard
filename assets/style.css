@@ -236,7 +236,6 @@
     margin: 10px auto 0 auto;
 }
 
-
 .select {
   position: relative;
   display: flex;
@@ -245,7 +244,6 @@
   border-radius: .25em;
   overflow: hidden;
 }
-
 
 
 .section {
@@ -291,6 +289,7 @@
 
 .section_country {
     width
+
 }
 
 
