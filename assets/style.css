@@ -202,6 +202,20 @@
     background-color: #0D9165;
 }
 
+.Tab_deco {
+    background-color: #1B263D;
+    color: lightgrey;
+    border: 1px solid #1B263D;
+    margin: 5px;
+    border-radius: 10px 10px 0 0;
+}
+
+.Tab_deco:hover {
+    background: silver;
+    border-radius: 50%;
+    border-bottom: 20px solid slateblue;
+    cursor: pointer;
+}
 
 
 
@@ -228,12 +242,15 @@
 }
 
 .dropdown {
-    background-color: colors[content-background];
     border: none;
     border-bottom: 3px solid ghostwhite;
     color: orange;
     display: table;
     margin: 10px auto 0 auto;
+}
+
+.dropdown_border {
+    margin: -15px 0 5px 0;
 }
 
 .select {
@@ -244,7 +261,6 @@
   border-radius: .25em;
   overflow: hidden;
 }
-
 
 .section {
     line-height:240px;

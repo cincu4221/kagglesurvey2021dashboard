@@ -43,9 +43,10 @@ colors = {
 def age_chart_func(value):
     fig_age = px.bar(data,
                      x=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().index,
-                     y=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().values,)
+                     y=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().values,
+                     )
     fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
-                          marker_color='lightgreen')
+                          marker_color='#E08E79')
     fig_age.update_layout(paper_bgcolor=colors['content-background'],
                           font_color=colors['text'],
                           plot_bgcolor=colors['plot_background'],
@@ -69,16 +70,21 @@ fig_age.update_layout(paper_bgcolor=colors['content-background'],
 '''
 
 # Chart.2
-fig_gender = px.pie(data,
-                    names=data['Q2'][1:].value_counts().sort_index().index,
-                    values=data['Q2'][1:].value_counts().sort_index().values,
-                    hole=.3
-                    )
-fig_gender.update_traces(textinfo='label+percent')
-fig_gender.update_layout(paper_bgcolor=colors['content-background'],
-                         font_color=colors['text'],
-                         showlegend=True,
-                         autosize=True)
+@app.callback(
+    Output('id_fig_gender', 'figure'),
+    Input('country-filter', 'value'))
+def gender_chart_func(value):
+    fig_gender = px.pie(data,
+                        names=data[data['Q3'] == value]['Q2'][1:].value_counts().sort_index().index,
+                        values=data[data['Q3'] == value]['Q2'][1:].value_counts().sort_index().values,
+                        hole=.3
+                        )
+    fig_gender.update_traces(textinfo='label+percent')
+    fig_gender.update_layout(paper_bgcolor=colors['content-background'],
+                             font_color=colors['text'],
+                             showlegend=True,
+                             autosize=True)
+    return fig_gender
 
 ''' Graph_object style
 fig_gender = go.Figure(data=[go.Pie(labels=data['Q2'][1:].value_counts().sort_index().index,
@@ -111,6 +117,8 @@ sel_Tab_deco = {
     'border-bottom': '5px solid',
     'border-radius': '10px 10px 0 0'
 }
+
+
 
 # step 3. HTML
 app.layout = html.Div(
@@ -149,19 +157,6 @@ app.layout = html.Div(
                                 children=[
                                     html.Div(
                                         children=[
-                                            html.H1(
-                                                style={'color': colors['text'],
-                                                       'margin': '1%'},
-                                                children="Filter Area"
-                                            ),
-                                        ]
-                                    ),
-                                    html.Div(
-                                        children=[
-                                            html.Div(children=[
-                                                html.P("Age Distribution",className='sub_title')
-                                            ]),'''
-                                            ''',
                                             dcc.Dropdown(
                                                 id="country-filter",
                                                 options=[
@@ -169,15 +164,23 @@ app.layout = html.Div(
                                                     for country in np.sort(data.Q3[1:].unique())
                                                 ],
                                                 value="Algeria",
-                                                style ={
+                                                style={
                                                     'background-color': colors['content-background'],
                                                     'border': 'none',
-                                                    'border-bottom': '1px solid ghostwhite',
+                                                    'border-radius': '5px',
                                                     'color': 'orange',
                                                     'display': 'table',
                                                     'margin': '10px auto 0 auto',
+                                                    'width': '450px',
                                                 }
                                             ),
+                                        ],className='dropdown_border'
+                                    ),
+                                    html.Div(
+                                        children=[
+                                            html.Div(children=[
+                                                html.P("Age Distribution",className='sub_title')
+                                            ]),
                                             html.Div(dcc.Graph(id='id_fig_age',
                                                                style={'margin': 5}),className='under_radius')
                                         ],
@@ -188,7 +191,7 @@ app.layout = html.Div(
                                             html.Div(children=[
                                                 html.P("Gender Distribution", className='sub_title')
                                             ]),
-                                            html.Div(dcc.Graph(figure=fig_gender,
+                                            html.Div(dcc.Graph(id='id_fig_gender',
                                                                style={'margin': 5}), className='under_radius')
                                         ],
                                         className='section_gen'
