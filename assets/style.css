@@ -101,18 +101,14 @@
 }
 
 .Select--single > .Select-control . Select-value, .Select-placeholder{
-    line-height: 48px;
+    line-height: 48px
 }
 
 .Select--multi .Select-value-label {
     line-height: 32px;
 }
 
-.Page-cover {
-    padding: 7.5px;
-    margin: -8px;
-    background-color: #1B263D;
-}
+
 
 .Dash-cover {
     border: 3px solid #374151;
@@ -211,7 +207,7 @@
 }
 
 .Tab_deco:hover {
-    background: silver;
+    background-color: silver;
     border-radius: 50%;
     border-bottom: 20px solid slateblue;
     cursor: pointer;
@@ -310,6 +306,81 @@
 
 
 
+
+
+body {
+    padding: 10px;
+    margin: -8px;
+    background-color: #1B263D;
+}
+
+ul {
+    background-color: #FFDAB9;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li { float: left; }
+
+li>a {
+    display: block;
+    color: #000000;
+    padding: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+li>a:hover {
+    background-color: #CD853F;
+    color: white;
+}
+
+li>a.current {
+    background-color: #FF6347;
+    color: white;
+}
+
+li>a:hover:not(.current) {
+    background-color: #CD853F;
+    color: white;
+}
+
+.Data_Tabs {
+    width: 450px;
+    margin: 10px 0 0 0;
+    padding: 0 0 0 10px;
+}
+
+.Data_Tab {
+    color: lightgrey;
+    background-color:
+}
+
+.Data_Tab_selected {
+    background-color: #BAD9D6;
+}
+
+.Data_Tab_title {
+    color: #1B263D;
+    margin: 10px 0 30px 0;
+}
+
+.Data_Tab_Div {
+    background-color: #BAD9D6;
+    padding: 10px;
+    margin: 0;
+    border-radius: 10px;
+}
+
+.Data_Tab_Div_deco {
+    background-color: #BAD9D6;
+    padding: 20px;
+    margin: 0;
+    border-radius: 10px;
+    border: 4px dashed #374151;
+}
 
 
 

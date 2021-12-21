@@ -1,11 +1,13 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_pivottable as dp
+import dash_table as dt
 import pandas as pd
 import numpy as np
 import plotly.graph_objs as go
 import plotly.express as px
-from dash.dependencies import Output, Input
+from dash.dependencies import Output, Input, State
 
 # step 1. Data Import
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
@@ -106,7 +108,7 @@ Tab_deco = {
     'color': 'lightgrey',
     'border': '1px solid #1B263D',
     'margin': '5px',
-    'border-radius': '10px 10px 0 0'
+    'border-radius': '10px 10px 0 0',
 }
 
 sel_Tab_deco = {
@@ -117,6 +119,27 @@ sel_Tab_deco = {
     'border-bottom': '5px solid',
     'border-radius': '10px 10px 0 0'
 }
+
+Data_Tab = {
+    'color': 'lightgrey',
+    'background-color': '#1B263D',
+    'border-radius': '10px 10px 0 0',
+    'border': 'none'
+}
+
+Data_Tab_selected = {
+    'background-color': '#BAD9D6',
+    'border-radius': '10px 10px 0 0',
+    'border': 'none'
+}
+
+data_pivot = [['Age', 'Gender', 'Country', 'Job', 'Career']]
+for num in list(range(25973)):
+    data_pivot.append([data['Q1'][1:].values[num],
+    data['Q2'][1:].values[num],
+    data['Q3'][1:].values[num],
+    data['Q5'][1:].values[num],
+    data['Q6'][1:].values[num]])
 
 
 
@@ -151,7 +174,7 @@ app.layout = html.Div(
                 ),
                 dcc.Tabs([
                     dcc.Tab(
-                        label='Dashboard', style=Tab_deco, selected_style=sel_Tab_deco,
+                        label='Visualization', style=Tab_deco, selected_style=sel_Tab_deco,
                         children=[
                             html.Div(
                                 children=[
@@ -168,7 +191,7 @@ app.layout = html.Div(
                                                     'background-color': colors['content-background'],
                                                     'border': 'none',
                                                     'border-radius': '5px',
-                                                    'color': 'orange',
+                                                    'color': 'darkgrey',
                                                     'display': 'table',
                                                     'margin': '10px auto 0 auto',
                                                     'width': '450px',
@@ -221,42 +244,114 @@ app.layout = html.Div(
                         ],
                     ),
                     dcc.Tab(
-                        label='Introduce', style=Tab_deco, selected_style=sel_Tab_deco, children=[
-                            html.H2('Hello World'),
-                            dcc.Dropdown(
-                                id='dropdown',
-                                options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
-                                value='LA'
+                        label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[
+                            html.Div(
+                                style={'padding': '10px'},
+                                children=[
+                                    html.Button(id="Download Data", n_clicks=0, children='Save'),
+                                    html.Div(id="output-1", children="Press button to save data at your desktop")
+                                ]
                             ),
-                            html.Div(id='display-value')
+                            html.Div(
+                                style={'padding': '10px'},
+                                children=[
+                                    dp.PivotTable(
+                                        id='PivotTable_KGL',
+                                        data=data_pivot,
+                                        cols=['Age'],
+                                        rows=['Country'],
+                                    )
+                                ]
+                            )
                         ]
                     ),
                     dcc.Tab(
-                        label='HTML layout Exam', style=Tab_deco, selected_style=sel_Tab_deco, children=[
-                            html.H1(children="HTML5 레이아웃"),
-                            html.Header(
+                        label='Data & Description', style=Tab_deco, selected_style=sel_Tab_deco, children=[
+                            html.Div(
+                                style={'padding': '0 10px 10px 10px'},
                                 children=[
-                                    html.H2(children="HEADER 영역")
-                                ],
-                                className='header_test'
-                            ),
-                            html.Nav(
-                                children=[
-                                    html.H2(children="NAV 영역")
-                                ],
-                                className='nav'
-                            ),
-                            html.Section(
-                                children=[
-                                    html.P(children="SECTION 영역")
-                                ],
-                                className='section'
-                            ),
-                            html.Footer(
-                                children=[
-                                    html.H2(children="FOOTER 영역")
-                                ],
-                                className='footer'
+                                    dcc.Tabs(
+                                        [
+                                            dcc.Tab(
+                                                label='Description',
+                                                style=Data_Tab,
+                                                selected_style=Data_Tab_selected,
+                                                children=[
+                                                    html.Div(
+                                                        className='Data_Tab_Div',
+                                                        children=[
+                                                            html.Div(
+                                                                className='Data_Tab_Div_deco',
+                                                                children=[
+                                                                    html.H1('Description ✔', className='Data_Tab_title'),
+                                                                    html.P("Welcome to Kaggle's annual Machine Learning and Data Science Survey competition! You can read our executive summary here."),
+                                                                    html.P("The survey was live from 09/01/2021 to 10/04/2021, and after cleaning the data we finished with 25,973 responses!"),
+                                                                    html.P("This year Kaggle is once again launching an annual Data Science Survey Challenge, where we will be awarding a prize pool of $30,000 to notebook authors who tell a rich story about a subset of the data science and machine learning community."),
+                                                                    html.P("The challenge objective: tell a data story about a subset of the data science community represented in this survey, through a combination of both narrative text and data exploration. A “story” could be defined any number of ways, and that’s deliberate. The challenge is to deeply explore (through data) the impact, priorities, or concerns of a specific group of data science and machine learning practitioners. That group can be defined in the macro (for example: anyone who does most of their coding in Python) or the micro (for example: female data science students studying machine learning in masters programs). This is an opportunity to be creative and tell the story of a community you identify with or are passionate about!"),
+                                                                    html.H3("Submissions will be evaluated on the following:", className='Data_Tab_title'),
+                                                                    html.P("▪ Composition - Is there a clear narrative thread to the story that’s articulated and supported by data? The subject should be well defined, well researched, and well supported through the use of data and visualizations."),
+                                                                    html.P("▪ Originality - Does the reader learn something new through this submission? Or is the reader challenged to think about something in a new way? A great entry will be informative, thought provoking, and fresh all at the same time."),
+                                                                    html.P("▪ Documentation - Are your code, and notebook, and additional data sources well documented so a reader can understand what you did? Are your sources clearly cited? A high quality analysis should be concise and clear at each step so the rationale is easy to follow and the process is reproducible"),
+                                                                    html.Br(),
+                                                                    html.Br(),
+                                                                    html.H1('Timeline ⏰', className='Data_Tab_title'),
+                                                                    html.P("▪ Submission deadline: November 28th, 2021"),
+                                                                    html.P("▪ Winners announced: December 16th, 2021"),
+                                                                    html.P("All deadlines are at 11:59 PM UTC on the corresponding day unless otherwise noted. The competition organizers reserve the right to update the contest timeline if they deem it necessary."),
+                                                                    html.Br(),
+                                                                    html.Br(),
+                                                                    html.H1('Prizes 🎁', className='Data_Tab_title'),
+                                                                    html.P("There will be 5 prizes for the best data storytelling submissions:"),
+                                                                    html.P("▪ 1st prize: $10,000"),
+                                                                    html.P("▪ 2nd prize: $5,000"),
+                                                                    html.P("▪ 3rd prize: $5,000"),
+                                                                    html.P("▪ 4th prize: $5,000"),
+                                                                    html.P("▪ 5th prize: $5,000"),
+                                                                    html.P("Kaggle will also give a Notebook Award of $1,000 to recognize our favorite notebook that gets published prior to 11:59:00 PM UTC on Sunday, November 7th."),
+                                                                ]
+                                                            )
+                                                        ]
+                                                    ),
+                                                ]
+                                            ),
+                                            dcc.Tab(
+                                                label='Data',
+                                                style=Data_Tab,
+                                                selected_style=Data_Tab_selected,
+                                                children=[
+                                                    html.Div(
+                                                        className='Data_Tab_Div',
+                                                        children=[
+                                                            html.Div(
+                                                                className='Data_Tab_Div_deco',
+                                                                children=[
+                                                                    html.H1('Data 💾', className='Data_Tab_title'),
+                                                                    html.H3('Main Data:'),
+                                                                    html.P('kaggle_survey_2021_responses.csv: 42+ questions and 25,973 responses'),
+                                                                    html.P("▪ Responses to multiple choice questions (only a single choice can be selected) were recorded in individual columns. Responses to multiple selection questions (multiple choices can be selected) were split into multiple columns (with one column per answer choice)."),
+                                                                    html.H3('Supplementary Data:'),
+                                                                    html.P('kaggle_survey_2021_answer_choices.pdf: list of answer choices for every question'),
+                                                                    html.P("▪ With footnotes describing which questions were asked to which respondents."),
+                                                                    html.P('kaggle_survey_2021_methodology.pdf: a description of how the survey was conducted'),
+                                                                    html.P("▪ You can ask additional questions by posting in the pinned Q&A thread."),
+                                                                    html.A(href="data/kaggle-survey-2021.zip",
+                                                                        children='download'),
+                                                                    html.Form(method='get', action='C:\Users\wjjeon\Desktop\kagglesurvey2021dashboard\data\kaggle-survey-2021.zip',
+                                                                        children=[
+                                                                            html.Button('Download Data',
+                                                                                        type='submit'
+                                                                            ),
+                                                                        ]
+                                                                    )
+                                                                ]
+                                                            )
+                                                        ]
+                                                    ),
+                                                ]
+                                            ),
+                                        ],className='Data_Tabs'
+                                    )
+                                ]
                             )
                         ],
                     ),
@@ -267,13 +362,6 @@ app.layout = html.Div(
 )
 
 
-
-# test
-@app.callback(
-    Output('display-value', 'children'),
-    Input('dropdown', 'value'))
-def display_value(value):
-    return 'You have selected "{}"'.format(value)
 
 
 if __name__ == "__main__":
