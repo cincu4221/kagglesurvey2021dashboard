@@ -13,8 +13,7 @@ from dash.dependencies import Output, Input, State
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
 Age_xaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().index
 Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values
-# data["Date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
-# data.sort_values("Date", inplace=True)
+
 
 # print(data[['region', 'type', 'Date']].head())
 
@@ -48,7 +47,8 @@ def age_chart_func(value):
                      y=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().values,
                      )
     fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
-                          marker_color='#E08E79')
+                          marker_color='#E08E79',
+                          marker_line_width=0,)
     fig_age.update_layout(paper_bgcolor=colors['content-background'],
                           font_color=colors['text'],
                           plot_bgcolor=colors['plot_background'],
@@ -57,19 +57,6 @@ def age_chart_func(value):
     fig_age.update_yaxes(title_text='Counts')
     return fig_age
 
-
-''' Graph_object style
-fig_age = go.Figure(data=[go.Bar(x=data['Q1'][1:].value_counts().sort_index().index,
-                                 y=data['Q1'][1:].value_counts().sort_index().values,
-                                 )])
-
-fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
-                      marker_color='lightgreen')
-fig_age.update_layout(paper_bgcolor=colors['content-background'],
-                      font_color=colors['text'],
-                      plot_bgcolor=colors['plot_background'],
-                      autosize=True)
-'''
 
 # Chart.2
 @app.callback(
@@ -88,7 +75,44 @@ def gender_chart_func(value):
                              autosize=True)
     return fig_gender
 
-''' Graph_object style
+
+# Chart.3
+@app.callback(
+    Output('id_fig_job', 'figure'),
+    Input('country-filter', 'value'))
+def job_chart_func(value):
+    fig_job = px.bar(data,
+                     y=data[data['Q3'] == value]['Q5'][1:].value_counts().index,
+                     x=data[data['Q3'] == value]['Q5'][1:].value_counts().values,
+                     orientation='h'
+                     )
+    fig_job.update_traces(hovertemplate='(Count: %{y:.0f})',
+                          marker_color=px.colors.qualitative.Safe[0:],
+                          marker_line_width=0,)
+    fig_job.update_layout(paper_bgcolor=colors['content-background'],
+                          font_color=colors['text'],
+                          plot_bgcolor=colors['plot_background'],
+                          autosize=True)
+    fig_job.update_xaxes(title_text='Jobs')
+    fig_job.update_yaxes(title_text='Counts')
+    return fig_job
+
+
+''' 
+ Graph 1. Graph_object style
+fig_age = go.Figure(data=[go.Bar(x=data['Q1'][1:].value_counts().sort_index().index,
+                                 y=data['Q1'][1:].value_counts().sort_index().values,
+                                 )])
+
+fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
+                      marker_color='lightgreen')
+fig_age.update_layout(paper_bgcolor=colors['content-background'],
+                      font_color=colors['text'],
+                      plot_bgcolor=colors['plot_background'],
+                      autosize=True)
+
+    
+ Graph 2. Graph_object style
 fig_gender = go.Figure(data=[go.Pie(labels=data['Q2'][1:].value_counts().sort_index().index,
                                     values=data['Q2'][1:].value_counts().sort_index().values,
                                     textinfo='label+percent',
@@ -98,9 +122,6 @@ fig_gender.update_layout(paper_bgcolor=colors['content-background'],
                          showlegend=False,
                          autosize=True)
 '''
-
-# Chart.3
-
 
 # Tab_CSS
 Tab_deco = {
@@ -186,7 +207,7 @@ app.layout = html.Div(
                                                     {"label": country, "value": country}
                                                     for country in np.sort(data.Q3[1:].unique())
                                                 ],
-                                                value="Algeria",
+                                                value="India",
                                                 style={
                                                     'background-color': colors['content-background'],
                                                     'border': 'none',
@@ -202,17 +223,17 @@ app.layout = html.Div(
                                     html.Div(
                                         children=[
                                             html.Div(children=[
-                                                html.P("Age Distribution",className='sub_title')
+                                                html.P("Age Graph", className='sub_title')
                                             ]),
                                             html.Div(dcc.Graph(id='id_fig_age',
-                                                               style={'margin': 5}),className='under_radius')
+                                                               style={'margin': 5}), className='under_radius')
                                         ],
                                         className='section_age'
                                     ),
                                     html.Div(
                                         children=[
                                             html.Div(children=[
-                                                html.P("Gender Distribution", className='sub_title')
+                                                html.P("Gender Graph", className='sub_title')
                                             ]),
                                             html.Div(dcc.Graph(id='id_fig_gender',
                                                                style={'margin': 5}), className='under_radius')
@@ -222,14 +243,12 @@ app.layout = html.Div(
                                     html.Div(
                                         children=[
                                             html.Div(children=[
-                                                html.P("Country Distribution", className='sub_title')
+                                                html.P("Job Graph", className='sub_title')
                                             ]),
-                                            '''
-                                            html.Div(dcc.Graph(figure=age_chart_func('Japan'),
+                                            html.Div(dcc.Graph(id='id_fig_job',
                                                                style={'margin': 5}), className='under_radius')
-                                                               '''
                                         ],
-                                        className='section_age'
+                                        className='section_job'
                                     ),
                                     html.Div(
                                         style={'backgroundColor': colors['content-background']},
@@ -292,6 +311,7 @@ app.layout = html.Div(
                                                                     html.P("▪ Composition - Is there a clear narrative thread to the story that’s articulated and supported by data? The subject should be well defined, well researched, and well supported through the use of data and visualizations."),
                                                                     html.P("▪ Originality - Does the reader learn something new through this submission? Or is the reader challenged to think about something in a new way? A great entry will be informative, thought provoking, and fresh all at the same time."),
                                                                     html.P("▪ Documentation - Are your code, and notebook, and additional data sources well documented so a reader can understand what you did? Are your sources clearly cited? A high quality analysis should be concise and clear at each step so the rationale is easy to follow and the process is reproducible"),
+                                                                    html.A('Kaggle Competition Page Link', href="https://www.kaggle.com/c/kaggle-survey-2021/overview"),
                                                                     html.Br(),
                                                                     html.Br(),
                                                                     html.H1('Timeline ⏰', className='Data_Tab_title'),
@@ -334,9 +354,8 @@ app.layout = html.Div(
                                                                     html.P("▪ With footnotes describing which questions were asked to which respondents."),
                                                                     html.P('kaggle_survey_2021_methodology.pdf: a description of how the survey was conducted'),
                                                                     html.P("▪ You can ask additional questions by posting in the pinned Q&A thread."),
-                                                                    html.A(href="data/kaggle-survey-2021.zip",
-                                                                        children='download'),
-                                                                    html.Form(method='get', action='C:\Users\wjjeon\Desktop\kagglesurvey2021dashboard\data\kaggle-survey-2021.zip',
+                                                                    html.H3('Download Data 📥'),
+                                                                    html.Form(method='get', action='https://github.com/cincu4221/kagglesurvey2021dashboard/raw/main/data/kaggle-survey-2021.zip',
                                                                         children=[
                                                                             html.Button('Download Data',
                                                                                         type='submit'
