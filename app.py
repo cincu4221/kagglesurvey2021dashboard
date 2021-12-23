@@ -1,7 +1,6 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_pivottable as dp
 import pandas as pd
 
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
@@ -88,26 +87,7 @@ app.layout = html.Div(
                         children=[],
                     ),
                     dcc.Tab(
-                        label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[
-                            html.Div(
-                                style={'padding': '10px'},
-                                children=[
-                                    html.Button(id="Download Data", n_clicks=0, children='Save'),
-                                    html.Div(id="output-1", children="Press button to save data at your desktop")
-                                ]
-                            ),
-                            html.Div(
-                                style={'padding': '10px'},
-                                children=[
-                                    dp.PivotTable(
-                                        id='PivotTable_KGL',
-                                        data=data_pivot,
-                                        cols=['Age'],
-                                        rows=['Country'],
-                                    )
-                                ]
-                            )
-                        ]
+                        label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[]
                     ),
                     dcc.Tab(
                         label='Data & Description', style=Tab_deco, selected_style=sel_Tab_deco, children=[],
