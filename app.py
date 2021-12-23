@@ -14,6 +14,7 @@ Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index(ascendin
 
 # print(data[['region', 'type', 'Date']].head())
 
+
 # step 2. Dash Class
 external_stylesheets = [
     {
@@ -85,7 +86,7 @@ def job_chart_func(value):
                      orientation='h'
                      )
     fig_job.update_traces(hovertemplate='%{y}: %{x:.0f}',
-                          marker_color=px.colors.qualitative.Safe[0:], # px 내장 색상 : px.colors.qualitative
+                          marker_color='#efebd8', # px 내장 색상 : px.colors.qualitative
                           marker_line_width=0,)
     fig_job.update_layout(paper_bgcolor=colors['content-background'],
                           font_color=colors['text'],
