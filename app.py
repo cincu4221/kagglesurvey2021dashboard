@@ -80,12 +80,12 @@ def gender_chart_func(value):
     Input('country-filter', 'value'))
 def job_chart_func(value):
     fig_job = px.bar(data,
-                     y=data[data['Q3'] == value]['Q5'][1:].value_counts().index,
-                     x=data[data['Q3'] == value]['Q5'][1:].value_counts().values,
+                     y=data[data['Q3'] == value]['Q5'][1:].value_counts(ascending=True).index,
+                     x=data[data['Q3'] == value]['Q5'][1:].value_counts(ascending=True).values,
                      orientation='h'
                      )
     fig_job.update_traces(hovertemplate='%{y}: %{x:.0f}',
-                          marker_color=px.colors.qualitative.Safe[0:], # px 내장 색상 : px.colors.qualitative
+                          marker_color=px.colors.qualitative.Dark24[0:], # px 내장 색상 : px.colors.qualitative
                           marker_line_width=0,)
     fig_job.update_layout(paper_bgcolor=colors['content-background'],
                           font_color=colors['text'],
