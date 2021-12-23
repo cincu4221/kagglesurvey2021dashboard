@@ -38,8 +38,8 @@ colors = {
 
 # Chart.1
 @app.callback(
-    dash.dependencies.Output('id_fig_age', 'figure'),
-    dash.dependencies.Input('country-filter', 'value'))
+    Output('id_fig_age', 'figure'),
+    Input('country-filter', 'value'))
 def age_chart_func(value):
     fig_age = px.bar(data,
                      x=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().index,
@@ -59,8 +59,8 @@ def age_chart_func(value):
 
 # Chart.2
 @app.callback(
-    dash.dependencies.Output('id_fig_gender', 'figure'),
-    dash.dependencies.Input('country-filter', 'value'))
+    Output('id_fig_gender', 'figure'),
+    Input('country-filter', 'value'))
 def gender_chart_func(value):
     fig_gender = px.pie(data,
                         names=data[data['Q3'] == value]['Q2'][1:].value_counts().sort_index().index,
@@ -77,8 +77,8 @@ def gender_chart_func(value):
 
 # Chart.3
 @app.callback(
-    dash.dependencies.Output('id_fig_job', 'figure'),
-    dash.dependencies.Input('country-filter', 'value'))
+    Output('id_fig_job', 'figure'),
+    Input('country-filter', 'value'))
 def job_chart_func(value):
     fig_job = px.bar(data,
                      y=data[data['Q3'] == value]['Q5'][1:].value_counts().index,
@@ -99,8 +99,8 @@ def job_chart_func(value):
 
 # Chart.4
 @app.callback(
-    dash.dependencies.Output('id_fig_career', 'figure'),
-    dash.dependencies.Input('country-filter', 'value'))
+    Output('id_fig_career', 'figure'),
+    Input('country-filter', 'value'))
 def career_chart_func(value):
     fig_career = px.bar(data,
                         x=data[data['Q3'] == value]['Q6'][1:].value_counts().index,
