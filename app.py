@@ -116,31 +116,6 @@ def career_chart_func(value):
     return fig_career
 
 
-''' 
- Graph 1. Graph_object style
-fig_age = go.Figure(data=[go.Bar(x=data['Q1'][1:].value_counts().sort_index().index,
-                                 y=data['Q1'][1:].value_counts().sort_index().values,
-                                 )])
-
-fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
-                      marker_color='lightgreen')
-fig_age.update_layout(paper_bgcolor=colors['content-background'],
-                      font_color=colors['text'],
-                      plot_bgcolor=colors['plot_background'],
-                      autosize=True)
-
-    
- Graph 2. Graph_object style
-fig_gender = go.Figure(data=[go.Pie(labels=data['Q2'][1:].value_counts().sort_index().index,
-                                    values=data['Q2'][1:].value_counts().sort_index().values,
-                                    textinfo='label+percent',
-                                    hole=.3)])
-fig_gender.update_layout(paper_bgcolor=colors['content-background'],
-                         font_color=colors['text'],
-                         showlegend=False,
-                         autosize=True)
-'''
-
 # Tab_CSS
 Tab_deco = {
     'background-color': '#1B263D',
@@ -388,16 +363,16 @@ app.layout = html.Div(
                                                     ),
                                                 ]
                                             ),
-                                        ],className='Data_Tabs'
+                                        ], className='Data_Tabs'
                                     )
                                 ]
                             )
                         ],
                     ),
                 ], className='Tabs-cover')
-            ],className='Dash-cover'
+            ], className='Dash-cover'
         )
-    ],className='Page-cover'
+    ], className='Page-cover'
 )
 
 
