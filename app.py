@@ -1,6 +1,10 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_pivottable as dp
+import pandas as pd
+
+data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -40,6 +44,15 @@ Data_Tab_selected = {
     'border': 'none'
 }
 
+data_pivot = [['Age', 'Gender', 'Country', 'Job', 'Career']]
+for num in list(range(25973)):
+    data_pivot.append([
+        data['Q1'][1:].values[num],
+        data['Q2'][1:].values[num],
+        data['Q3'][1:].values[num],
+        data['Q5'][1:].values[num],
+        data['Q6'][1:].values[num]])
+
 app.layout = html.Div(
     children=[
         html.Div(
@@ -75,7 +88,26 @@ app.layout = html.Div(
                         children=[],
                     ),
                     dcc.Tab(
-                        label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[]
+                        label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[
+                            html.Div(
+                                style={'padding': '10px'},
+                                children=[
+                                    html.Button(id="Download Data", n_clicks=0, children='Save'),
+                                    html.Div(id="output-1", children="Press button to save data at your desktop")
+                                ]
+                            ),
+                            html.Div(
+                                style={'padding': '10px'},
+                                children=[
+                                    dp.PivotTable(
+                                        id='PivotTable_KGL',
+                                        data=data_pivot,
+                                        cols=['Age'],
+                                        rows=['Country'],
+                                    )
+                                ]
+                            )
+                        ]
                     ),
                     dcc.Tab(
                         label='Data & Description', style=Tab_deco, selected_style=sel_Tab_deco, children=[],

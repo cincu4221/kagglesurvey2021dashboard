@@ -151,12 +151,12 @@ Data_Tab_selected = {
 
 data_pivot = [['Age', 'Gender', 'Country', 'Job', 'Career']]
 for num in list(range(25973)):
-    data_pivot.append([data['Q1'][1:].values[num],
-    data['Q2'][1:].values[num],
-    data['Q3'][1:].values[num],
-    data['Q5'][1:].values[num],
-    data['Q6'][1:].values[num]])
-
+    data_pivot.append([
+        data['Q1'][1:].values[num],
+        data['Q2'][1:].values[num],
+        data['Q3'][1:].values[num],
+        data['Q5'][1:].values[num],
+        data['Q6'][1:].values[num]])
 
 
 # step 3. HTML
