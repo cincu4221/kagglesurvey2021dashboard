@@ -2,12 +2,10 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_pivottable as dp
-import dash_table as dt
 import pandas as pd
 import numpy as np
-import plotly.graph_objs as go
 import plotly.express as px
-from dash.dependencies import Output, Input, State
+from dash.dependencies import Output, Input
 
 # step 1. Data Import
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
