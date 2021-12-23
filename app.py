@@ -46,7 +46,7 @@ def age_chart_func(value):
                      x=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().index,
                      y=data[data['Q3'] == value]['Q1'][1:].value_counts().sort_index().values,
                      )
-    fig_age.update_traces(hovertemplate='(Count: %{y:.0f})',
+    fig_age.update_traces(hovertemplate='%{x}: %{y:.0f}',
                           marker_color='#E08E79',
                           marker_line_width=0,)
     fig_age.update_layout(paper_bgcolor=colors['content-background'],
@@ -86,8 +86,8 @@ def job_chart_func(value):
                      x=data[data['Q3'] == value]['Q5'][1:].value_counts().values,
                      orientation='h'
                      )
-    fig_job.update_traces(hovertemplate='(Count: %{y:.0f})',
-                          marker_color=px.colors.qualitative.Safe[0:],
+    fig_job.update_traces(hovertemplate='%{y}: %{x:.0f}',
+                          marker_color=px.colors.qualitative.Safe[0:], # px 내장 색상 : px.colors.qualitative
                           marker_line_width=0,)
     fig_job.update_layout(paper_bgcolor=colors['content-background'],
                           font_color=colors['text'],
@@ -96,6 +96,26 @@ def job_chart_func(value):
     fig_job.update_xaxes(title_text='Jobs')
     fig_job.update_yaxes(title_text='Counts')
     return fig_job
+
+# Chart.4
+@app.callback(
+    Output('id_fig_career', 'figure'),
+    Input('country-filter', 'value'))
+def career_chart_func(value):
+    fig_career = px.bar(data,
+                        x=data[data['Q3'] == value]['Q6'][1:].value_counts().index,
+                        y=data[data['Q3'] == value]['Q6'][1:].value_counts().values
+                        )
+    fig_career.update_traces(hovertemplate='%{x}: %{y:.0f}',
+                          marker_color='#efebd8',
+                          marker_line_width=0, )
+    fig_career.update_layout(paper_bgcolor=colors['content-background'],
+                          font_color=colors['text'],
+                          plot_bgcolor=colors['plot_background'],
+                          autosize=True)
+    fig_career.update_xaxes(title_text='Career')
+    fig_career.update_yaxes(title_text='Counts')
+    return fig_career
 
 
 ''' 
@@ -251,12 +271,14 @@ app.layout = html.Div(
                                         className='section_job'
                                     ),
                                     html.Div(
-                                        style={'backgroundColor': colors['content-background']},
                                         children=[
-                                            html.P(children="SECTION 영역",
-                                                   style={'color': colors['text']})
+                                            html.Div(children=[
+                                                html.P("Career Graph", className='sub_title')
+                                            ]),
+                                            html.Div(dcc.Graph(id='id_fig_career',
+                                                               style={'margin': 5}), className='under_radius')
                                         ],
-                                        className='section'
+                                        className='section_career'
                                     ),
                                 ],className='contents-padding'
                             ),
