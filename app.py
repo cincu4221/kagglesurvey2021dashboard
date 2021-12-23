@@ -149,17 +149,6 @@ app.layout = html.Div(
                                     html.Div(id="output-1", children="Press button to save data at your desktop")
                                 ]
                             ),
-                            html.Div(
-                                style={'padding': '10px'},
-                                children=[
-                                    dp.PivotTable(
-                                        id='PivotTable_KGL',
-                                        data=data_pivot,
-                                        cols=['Age'],
-                                        rows=['Country'],
-                                    )
-                                ]
-                            )
                         ]
                     ),
                     dcc.Tab(
