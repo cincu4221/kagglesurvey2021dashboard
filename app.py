@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_pivottable
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -8,11 +9,6 @@ from dash.dependencies import Output, Input
 
 # step 1. Data Import
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
-Age_xaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index(ascending=True).index
-Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index(ascending=True).values
-
-
-# print(data[['region', 'type', 'Date']].head())
 
 # step 2. Dash Class
 external_stylesheets = [
@@ -24,7 +20,7 @@ external_stylesheets = [
 ]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.title = "Temp Analytics: Understand Your Data!"
+app.title = "2021 Kaggle Survey!!"
 server = app.server
 
 colors = {
@@ -201,12 +197,12 @@ app.layout = html.Div(
                                                     {"label": country, "value": country}
                                                     for country in np.sort(data.Q3[1:].unique())
                                                 ],
-                                                value="India",
+                                                value="United States of America",
                                                 style={
                                                     'background-color': colors['content-background'],
                                                     'border': 'none',
                                                     'border-radius': '5px',
-                                                    'color': 'darkgrey',
+                                                    'color': '#1B263D',
                                                     'display': 'table',
                                                     'margin': '10px auto 0 auto',
                                                     'width': '450px',
@@ -260,7 +256,24 @@ app.layout = html.Div(
                     ),
                     dcc.Tab(
                         label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[
-
+                            html.Div(
+                                style={'padding': '10px'},
+                                children=[
+                                    html.Button(id="Download Data", n_clicks=0, children='Save'),
+                                    html.Div(id="output-1", children="Press button to save data at your desktop")
+                                ]
+                            ),
+                            html.Div(
+                                style={'padding': '10px'},
+                                children=[
+                                    dash_pivottable.PivotTable(
+                                        id='PivotTable_KGL',
+                                        data=data_pivot,
+                                        cols=['Age'],
+                                        rows=['Country'],
+                                    )
+                                ]
+                            )
                         ]
                     ),
                     dcc.Tab(
