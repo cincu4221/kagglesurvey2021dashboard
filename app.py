@@ -9,8 +9,8 @@ from dash.dependencies import Output, Input
 
 # step 1. Data Import
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
-Age_xaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().index
-Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index().values
+Age_xaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index(ascending=True).index
+Age_yaxis = data[data['Q3'] == 'Japan']['Q1'].value_counts().sort_index(ascending=True).values
 
 
 # print(data[['region', 'type', 'Date']].head())
