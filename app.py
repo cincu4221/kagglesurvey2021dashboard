@@ -62,7 +62,8 @@ def gender_chart_func(value):
                         values=data[data['Q3'] == value]['Q2'][1:].value_counts().sort_index().values,
                         hole=.3
                         )
-    fig_gender.update_traces(textinfo='label+percent')
+    fig_gender.update_traces(textinfo = 'label+percent',
+                             hovertemplate='%{label}: %{value:.0f}')
     fig_gender.update_layout(paper_bgcolor=colors['content-background'],
                              font_color=colors['text'],
                              showlegend=True,
@@ -135,14 +136,17 @@ Data_Tab = {
     'color': 'lightgrey',
     'background-color': '#1B263D',
     'border-radius': '10px 10px 0 0',
-    'border': 'none'
+    'border': 'none',
+    'margin': '0px 3px 0px 3px'
 }
 
 Data_Tab_selected = {
     'background-color': '#BAD9D6',
     'border-radius': '10px 10px 0 0',
-    'border': 'none'
+    'border': 'none',
+    'margin': '0px 3px 0px 3px'
 }
+
 
 data_pivot = [['Age', 'Gender', 'Country', 'Job', 'Career']]
 for num in list(range(25973)):
@@ -152,6 +156,7 @@ for num in list(range(25973)):
         data['Q3'][1:].values[num],
         data['Q5'][1:].values[num],
         data['Q6'][1:].values[num]])
+
 
 
 # step 3. HTML
@@ -264,8 +269,11 @@ app.layout = html.Div(
                                 ]
                             ),
                             html.Div(
-                                style={'padding': '10px'},
+                                className='pivot_deco',
                                 children=[
+                                    html.Div(children=[
+                                                html.P("PivotTable", className='sub_title_pivot')
+                                            ]),
                                     dash_pivottable.PivotTable(
                                         id='PivotTable_KGL',
                                         data=data_pivot,
@@ -294,7 +302,7 @@ app.layout = html.Div(
                                                             html.Div(
                                                                 className='Data_Tab_Div_deco',
                                                                 children=[
-                                                                    html.H1('Description ✔', className='Data_Tab_title'),
+                                                                    html.H1('Description', className='Data_Tab_title'),
                                                                     html.P("Welcome to Kaggle's annual Machine Learning and Data Science Survey competition! You can read our executive summary here."),
                                                                     html.P("The survey was live from 09/01/2021 to 10/04/2021, and after cleaning the data we finished with 25,973 responses!"),
                                                                     html.P("This year Kaggle is once again launching an annual Data Science Survey Challenge, where we will be awarding a prize pool of $30,000 to notebook authors who tell a rich story about a subset of the data science and machine learning community."),
@@ -303,16 +311,16 @@ app.layout = html.Div(
                                                                     html.P("▪ Composition - Is there a clear narrative thread to the story that’s articulated and supported by data? The subject should be well defined, well researched, and well supported through the use of data and visualizations."),
                                                                     html.P("▪ Originality - Does the reader learn something new through this submission? Or is the reader challenged to think about something in a new way? A great entry will be informative, thought provoking, and fresh all at the same time."),
                                                                     html.P("▪ Documentation - Are your code, and notebook, and additional data sources well documented so a reader can understand what you did? Are your sources clearly cited? A high quality analysis should be concise and clear at each step so the rationale is easy to follow and the process is reproducible"),
-                                                                    html.A('Kaggle Competition Page Link', href="https://www.kaggle.com/c/kaggle-survey-2021/overview"),
+                                                                    html.A('Kaggle Competition Page Link', className='profile_A', href="https://www.kaggle.com/c/kaggle-survey-2021/overview"),
                                                                     html.Br(),
                                                                     html.Br(),
-                                                                    html.H1('Timeline ⏰', className='Data_Tab_title'),
+                                                                    html.H1('Timeline', className='Data_Tab_title'),
                                                                     html.P("▪ Submission deadline: November 28th, 2021"),
                                                                     html.P("▪ Winners announced: December 16th, 2021"),
                                                                     html.P("All deadlines are at 11:59 PM UTC on the corresponding day unless otherwise noted. The competition organizers reserve the right to update the contest timeline if they deem it necessary."),
                                                                     html.Br(),
                                                                     html.Br(),
-                                                                    html.H1('Prizes 🎁', className='Data_Tab_title'),
+                                                                    html.H1('Prizes', className='Data_Tab_title'),
                                                                     html.P("There will be 5 prizes for the best data storytelling submissions:"),
                                                                     html.P("▪ 1st prize: $10,000"),
                                                                     html.P("▪ 2nd prize: $5,000"),
@@ -337,7 +345,7 @@ app.layout = html.Div(
                                                             html.Div(
                                                                 className='Data_Tab_Div_deco',
                                                                 children=[
-                                                                    html.H1('Data 💾', className='Data_Tab_title'),
+                                                                    html.H1('Data', className='Data_Tab_title'),
                                                                     html.H3('Main Data:'),
                                                                     html.P('kaggle_survey_2021_responses.csv: 42+ questions and 25,973 responses'),
                                                                     html.P("▪ Responses to multiple choice questions (only a single choice can be selected) were recorded in individual columns. Responses to multiple selection questions (multiple choices can be selected) were split into multiple columns (with one column per answer choice)."),
@@ -346,7 +354,7 @@ app.layout = html.Div(
                                                                     html.P("▪ With footnotes describing which questions were asked to which respondents."),
                                                                     html.P('kaggle_survey_2021_methodology.pdf: a description of how the survey was conducted'),
                                                                     html.P("▪ You can ask additional questions by posting in the pinned Q&A thread."),
-                                                                    html.H3('Download Data 📥'),
+                                                                    html.H3('Download Data'),
                                                                     html.Form(method='get', action='https://github.com/cincu4221/kagglesurvey2021dashboard/raw/main/data/kaggle-survey-2021.zip',
                                                                         children=[
                                                                             html.Button('Download Data',
@@ -354,6 +362,45 @@ app.layout = html.Div(
                                                                             ),
                                                                         ]
                                                                     )
+                                                                ]
+                                                            )
+                                                        ]
+                                                    ),
+                                                ]
+                                            ),
+                                            dcc.Tab(
+                                                label='Editor',
+                                                style=Data_Tab,
+                                                selected_style=Data_Tab_selected,
+                                                children=[
+                                                    html.Div(
+                                                        className='Data_Tab_Div',
+                                                        children=[
+                                                            html.Div(
+                                                                className='Data_Tab_Div_deco',
+                                                                children=[
+                                                                    html.H1('Editor :', className='Data_Tab_title'),
+                                                                    html.H2('Jeon WooJeong'),
+                                                                    html.A('Simple Profile', href='https://github.com/cincu4221/project', className='profile_A'),
+                                                                    html.Br(),html.Br(),
+                                                                    html.A('My Github Overview', href='https://github.com/cincu4221', className='profile_A'),
+                                                                    html.Br(),html.Br(),
+                                                                    html.A("View the submitted notebook", href='https://www.kaggle.com/kwdoku145/the-latest-trends-in-east-asia-japan-and-china', className='profile_A'),
+                                                                    html.Br(),html.Br(),
+                                                                    html.Form(method='get', action='https://github.com/cincu4221/project/raw/main/Kaggle_Survey_2021/docs/Kaggle_Survey_2021.pdf',
+                                                                        children=[
+                                                                            html.Button('Download Survey PDF',
+                                                                                        type='submit'
+                                                                            ),
+                                                                        ]
+                                                                    ),
+                                                                    html.H3('The period of learning data visualization'),
+                                                                    html.P("▪ less than 2 months"),
+                                                                    html.H3('Programming Language and Library used'),
+                                                                    html.P("▪ Python"),
+                                                                    html.P("▪ pandas"),
+                                                                    html.P("▪ Numpy"),
+                                                                    html.P("▪ Plotly"),
                                                                 ]
                                                             )
                                                         ]

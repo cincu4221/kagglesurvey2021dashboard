@@ -11,6 +11,16 @@
     border-bottom: 3px solid lightgrey;
 }
 
+.sub_title_pivot {
+    color: lightgrey;
+    font-size: 18px;
+    text-align: left;
+    margin: 0px;
+    padding: 15px 20px;
+    border-bottom: 3px solid lightgrey;
+    margin: -15px -15px 15px -15px;
+}
+
 .inline_div {
     display:inline-block;
     float:left;
@@ -325,6 +335,7 @@ body {
     margin-left: auto;
     margin-right: auto;*/
     max-width: 100%;
+    min-width: 50%;
     width: 1400px;
     padding: 10px;
     margin: -8px auto 0 auto;
@@ -365,14 +376,13 @@ li>a:hover:not(.current) {
 }
 
 .Data_Tabs {
-    width: 450px;
+    width: 650px;
     margin: 10px 0 0 0;
     padding: 0 0 0 10px;
 }
 
 .Data_Tab {
     color: lightgrey;
-    background-color:
 }
 
 .Data_Tab_selected {
@@ -399,8 +409,20 @@ li>a:hover:not(.current) {
     border: 4px dashed #374151;
 }
 
+.profile_A {
+    font-size: 16px;
+    font-weight: bolder;
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: olive; /* 링크의 색상 제거 */
+}
 
-
+.pivot_deco {
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1B263D;
+}
 
 
 
