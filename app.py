@@ -307,7 +307,6 @@ app.layout = html.Div(
                                                                     html.A('Kaggle Competition Page Link', className='profile_A', href="https://www.kaggle.com/c/kaggle-survey-2021/overview"),
                                                                     html.Br(),
                                                                     html.Br(),
-                                                                    html.Br(),
                                                                     html.H1('Timeline', className='Data_Tab_title'),
                                                                     html.P("▪ Submission deadline: November 28th, 2021"),
                                                                     html.P("▪ Winners announced: December 16th, 2021"),
