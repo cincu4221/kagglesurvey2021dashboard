@@ -313,6 +313,7 @@ app.layout = html.Div(
                                                                     html.P("All deadlines are at 11:59 PM UTC on the corresponding day unless otherwise noted. The competition organizers reserve the right to update the contest timeline if they deem it necessary."),
                                                                     html.Br(),
                                                                     html.Br(),
+html.Br(),
                                                                     html.H1('Prizes', className='Data_Tab_title'),
                                                                     html.P("There will be 5 prizes for the best data storytelling submissions:"),
                                                                     html.P("▪ 1st prize: $10,000"),
