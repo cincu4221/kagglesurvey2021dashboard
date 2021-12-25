@@ -262,13 +262,6 @@ app.layout = html.Div(
                     dcc.Tab(
                         label='PivotTable', style=Tab_deco, selected_style=sel_Tab_deco, children=[
                             html.Div(
-                                style={'padding': '10px'},
-                                children=[
-                                    html.Button(id="Download Data", n_clicks=0, children='Save'),
-                                    html.Div(id="output-1", children="Press button to save data at your desktop")
-                                ]
-                            ),
-                            html.Div(
                                 className='pivot_deco',
                                 children=[
                                     html.Div(children=[
