@@ -364,7 +364,7 @@ app.layout = html.Div(
                                                 ]
                                             ),
                                             dcc.Tab(
-                                                label='Editor',
+                                                label='Creator',
                                                 style=Data_Tab,
                                                 selected_style=Data_Tab_selected,
                                                 children=[
@@ -374,7 +374,7 @@ app.layout = html.Div(
                                                             html.Div(
                                                                 className='Data_Tab_Div_deco',
                                                                 children=[
-                                                                    html.H1('Editor :', className='Data_Tab_title'),
+                                                                    html.H1('Creator :', className='Data_Tab_title'),
                                                                     html.H2('Jeon WooJeong'),
                                                                     html.A('Simple Profile', href='https://github.com/cincu4221/project', className='profile_A'),
                                                                     html.Br(),html.Br(),
