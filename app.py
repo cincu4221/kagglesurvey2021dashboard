@@ -7,10 +7,8 @@ import numpy as np
 import plotly.express as px
 from dash.dependencies import Output, Input
 
-# step 1. Data Import
 data = pd.read_csv("data/kaggle_survey_2021_responses.csv", index_col=0)
 
-# step 2. Dash Class
 external_stylesheets = [
     {
         "href": "https://fonts.googleapis.com/css2?"
@@ -147,7 +145,7 @@ Data_Tab_selected = {
     'margin': '0px 3px 0px 3px'
 }
 
-
+# pivottable data
 data_pivot = [['Age', 'Gender', 'Country', 'Job', 'Career']]
 for num in list(range(25973)):
     data_pivot.append([
