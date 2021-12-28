@@ -396,6 +396,14 @@ app.layout = html.Div(
                                                                     html.P("▪ Pandas - 1.3.5"),
                                                                     html.P("▪ Numpy - 1.21.4"),
                                                                     html.P("▪ Plotly - 5.4.0"),
+                                                                    html.H2('References.'),
+                                                                    html.A('Heroku Dash Distribute Posting - Evan', href='https://torch-law-f0b.notion.site/Heroku-Dash-Windows-10-b3a5d5e6ecea4ff5a896f18b24c080ab', className='profile_A'),
+                                                                    html.Br(),html.Br(),
+                                                                    html.A('Interactive Dashboards and Data Apps with Plotly and Dash - Elias Dabbas', href='https://book.naver.com/bookdb/book_detail.naver?bid=20695329', className='profile_A'),
+                                                                    html.Br(),html.Br(),
+                                                                    html.A('TCP SCHOOL - ', className='profile_A'),
+                                                                    html.A('HTML ', href='http://tcpschool.com/html/intro', className='profile_A'),
+                                                                    html.A('CSS', href='http://tcpschool.com/css/intro', className='profile_A'),
                                                                 ]
                                                             )
                                                         ]
