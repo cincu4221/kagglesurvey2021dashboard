@@ -388,12 +388,14 @@ app.layout = html.Div(
                                                                         ]
                                                                     ),
                                                                     html.H3('The period of learning data visualization'),
-                                                                    html.P("▪ less than 2 months"),
-                                                                    html.H3('Programming Language and Library used'),
-                                                                    html.P("▪ Python"),
-                                                                    html.P("▪ pandas"),
-                                                                    html.P("▪ Numpy"),
-                                                                    html.P("▪ Plotly"),
+                                                                    html.P("▪ less than 1 months"),
+                                                                    html.H3('Production period'),
+                                                                    html.P("▪ One week"),
+                                                                    html.H3('Programming Language and Library Version Used'),
+                                                                    html.P("▪ Python - 3.9.0"),
+                                                                    html.P("▪ Pandas - 1.3.5"),
+                                                                    html.P("▪ Numpy - 1.21.4"),
+                                                                    html.P("▪ Plotly - 5.4.0"),
                                                                 ]
                                                             )
                                                         ]
