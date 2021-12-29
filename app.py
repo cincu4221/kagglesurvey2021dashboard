@@ -401,9 +401,10 @@ app.layout = html.Div(
                                                                     html.Br(),html.Br(),
                                                                     html.A('Interactive Dashboards and Data Apps with Plotly and Dash - Elias Dabbas', href='https://book.naver.com/bookdb/book_detail.naver?bid=20695329', className='profile_A'),
                                                                     html.Br(),html.Br(),
-                                                                    html.A('TCP SCHOOL - ', className='profile_A'),
                                                                     html.A('HTML ', href='http://tcpschool.com/html/intro', className='profile_A'),
-                                                                    html.A('CSS', href='http://tcpschool.com/css/intro', className='profile_A'),
+                                                                    html.A('& ', className='profile_A'),
+                                                                    html.A('CSS ', href='http://tcpschool.com/css/intro', className='profile_A'),
+                                                                    html.A('- TCP SCHOOL', className='profile_A'),
                                                                 ]
                                                             )
                                                         ]
