@@ -378,6 +378,8 @@ app.layout = html.Div(
                                                                     html.Br(),html.Br(),
                                                                     html.A('My Github Overview', href='https://github.com/cincu4221', className='profile_A'),
                                                                     html.Br(),html.Br(),
+                                                                    html.A('Dashboard Github Repo', href='https://github.com/cincu4221/project/tree/main/Kaggle_Survey_2021_Dashboard_Distribute', className='profile_A'),
+                                                                    html.Br(),html.Br(),
                                                                     html.A("View the submitted notebook", href='https://www.kaggle.com/kwdoku145/the-latest-trends-in-east-asia-japan-and-china', className='profile_A'),
                                                                     html.Br(),html.Br(),
                                                                     html.Form(method='get', action='https://github.com/cincu4221/project/raw/main/Kaggle_Survey_2021/docs/Kaggle_Survey_2021.pdf',
