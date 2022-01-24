@@ -98,7 +98,7 @@
     height: 48px;
 }
 
-.Select--single > .Select-control . Select-value, .Select-placeholder{
+.Select--single > .Select-control .Select-value, .Select-placeholder{
     line-height: 48px
 }
 
@@ -340,6 +340,10 @@ body {
     padding: 10px;
     margin: -8px auto 0 auto;
     background-color: #737373;
+}
+
+#react-select-2--value-item {
+    color: lightgrey;
 }
 
 ul {
